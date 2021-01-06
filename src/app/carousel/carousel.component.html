@@ -1,0 +1,11 @@
+<div class="carousel slide" data-ride="carousel" data-interval="6000">
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+      <div class="carousel-item" *ngFor="let post of _posts let i = index" [ngClass]="{'active' : i == 0}">
+          <img [src]=post.imageUrl alt={{post.title}} style="height: 580px;width: 1024px;padding-bottom: 5px;">
+          <div class="text-center">
+            <h3 class="h3-responsive">{{post.title}}</h3>
+          </div>
+      </div>
+  </div>
+</div>

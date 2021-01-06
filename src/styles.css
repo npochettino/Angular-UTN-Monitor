@@ -1,1 +1,128 @@
-/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file */
+/* DO NOT IMPORT STYLES. IT BREAKS THE STYLE BUILD ORDER */
+
+.fast-animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes expand {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes expand {
+  0% {
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+.expand {
+  -webkit-animation-name: expand;
+  animation-name: expand;
+}
+@-webkit-keyframes collapse {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+}
+
+@keyframes collapse {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  100% {
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+  }
+}
+
+.collapse {
+  -webkit-animation-name: collapse;
+  animation-name: collapse;
+}
+
+/*.loginscreen {
+  font-size: 18px;
+}*/
+
+/*.wrapper {
+  font-size: 18px;
+}*/
+
+[sort] {
+  cursor: pointer;
+}
+
+[routerLink] {
+  cursor: pointer;
+}
+
+:focus {
+  outline: none;
+}
+
+.navbar-form-custom .input-group-addon {
+  background-color: transparent;
+  border: none;
+  line-height: 3;
+}
+
+.navbar-form-custom .fa {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+
+.img-shadow {
+  box-shadow: 0 0 3px 0 #007bff;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-stevedore {
+  background-color: #035994 !important;
+  color: #ffffff;
+}
+
+.bg-stevedore input, select{
+  color:#696b6d !important
+}
+
+.bg-foreman {
+  background-color: #ee1d23 !important;
+  color: #ffffff;
+}
+
+.bg-foreman input, select{
+  color:#696b6d !important
+}

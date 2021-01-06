@@ -20,13 +20,25 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
+              "src/app/timetable/_scss/timetable.scss",
+              "src/fonts.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/lib/INSPINIA/font-awesome/css/font-awesome.css",
+              "src/lib/INSPINIA/css/animate.css",
+              "src/lib/INSPINIA/css/style.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/jquery/dist/jquery.slim.min.js",
+              "src/lib/INSPINIA/js/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/bootstrap/js/dist/util.js",
+              "node_modules/xlsx/dist/xlsx.js"
+            ]
           },
           "configurations": {
             "production": {
