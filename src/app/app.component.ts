@@ -62,7 +62,10 @@ export class AppComponent implements OnInit {
           h.MinutoDesde = Number(h.Desde.split(':')[1])
           h.HoraHasta = Number(h.Hasta.split(':')[0])
           h.MinutoHasta = Number(h.Hasta.split(':')[1])
-          this.aulas.push(h.Aula)
+          if(!this.aulas)
+            this.aulas = []
+
+          this.aulas.push(h.Carrera + " - " + h.Aula)
         })
       }
       this.horarios = this.horarios.filter(h => h.Dia == this.serverDay)
@@ -84,15 +87,13 @@ export class AppComponent implements OnInit {
     let serverDate = this.apiService.serverDate()
 
     let currentHour = Number(this.apiService.getTime())
-    this.timetable.setScope(currentHour, currentHour + 8);
-
-
+    this.timetable.setScope(currentHour, currentHour + 7);
 
     this.timetable.addLocations(this.aulas);
 
     this.horarios.forEach(h => {
       this.timetable.addEvent(`${h.Materia} - ${h.Profesor}`,
-        h.Aula,
+      h.Carrera + " - " + h.Aula,
         new Date(serverDate.getFullYear(), serverDate.getMonth(), serverDate.getDate(), h.HoraDesde, h.MinutoDesde),
         new Date(serverDate.getFullYear(), serverDate.getMonth(), serverDate.getDate(), h.HoraHasta, h.MinutoHasta),
         { url: '#' });

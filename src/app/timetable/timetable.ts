@@ -13,7 +13,7 @@ export class Timetable {
       let currentHour = Number(new Date().getHours().toString())
         this.scope = {
             hourStart: currentHour,
-            hourEnd: currentHour + 8
+            hourEnd: currentHour + 7
           };
         this.locations = [];
         this.events = [];
