@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   serverDay: string
   public now: Date = new Date();
 
-  @ViewChild('timetable', {static: false}) element: ElementRef;
+  @ViewChild('timetable') element: ElementRef;
   selector;
   timetable: Timetable;
   renderer: Renderer;
