@@ -56,7 +56,7 @@
     margin: 0;
   }
   aside li, time li {
-    height: 46px;
+    height: 60px;
   }
   section {
     //width: 75%;
@@ -124,7 +124,7 @@
         border-bottom: none;
       }
       &:first-child .time-entry {
-        height: 44px;
+        height: 60px;
       }
       &:after {
         content: "";
@@ -154,9 +154,9 @@
     }
   }
   .time-entry {
-    background-color: #EC6A5E;
+    background-color: #317dbf;
     transition: 200ms background-color;
-    height: 45px;
+    height: 60px;
     display: block;
     position: absolute;
     text-align: center;
@@ -165,7 +165,7 @@
     white-space: normal;
     overflow: hidden;
     color: #fff;
-    border: 1px solid #e32c1b;
+    border: 1px solid #ffffff;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     small {
@@ -176,7 +176,7 @@
       display: block;
     }
     &:hover {
-      background-color: #e74030;
+      background-color: #dd7c1b;
     }
   }
 }

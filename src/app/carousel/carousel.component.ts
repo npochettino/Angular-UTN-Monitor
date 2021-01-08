@@ -19,10 +19,15 @@ export class CarouselComponent implements OnInit {
       data.id = post.id
       data.createdDate = post.date
       data.title = post.title.rendered
-      data.imageUrl = this.getImage(post.content.rendered)
+
+      const url = this.getImage(post.content.rendered)
+      if(url.includes('</div>'))
+        data.imageUrl = 'https://www.frrq.utn.edu.ar/wp-content/uploads/2020/02/ImgLogoUTN.png'
+      else
+        data.imageUrl = this.getImage(post.content.rendered)
+
       this._posts.push(data)
     });
-    //console.log(this._posts)
   }
 
   private getImage(rendered: string){
