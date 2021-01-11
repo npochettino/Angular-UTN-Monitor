@@ -25,14 +25,11 @@ export class TimetableComponent implements OnInit {
   aulas = []
 
   constructor(
-    private apiService: ApiService) {
-      this.timetable = new Timetable();
-    }
+    private apiService: ApiService) {}
 
   async ngOnInit() {
     this.serverDay = this.apiService.getDay()
     await this.loadTable()
-    setInterval(this.loadTable, 1000 * 60)
   }
 
   async loadTable(){
@@ -67,22 +64,28 @@ export class TimetableComponent implements OnInit {
       this.aulas = this.aulas.map(item => item).filter((value, index, self) => self.indexOf(value) === index).sort()
     };
     req.send();
-    if(this.selector)
-      this.addTimeTable()
   }
 
   ngAfterViewInit() {
+    this.selector =  this.element.nativeElement;
     setTimeout(() => {
-      this.selector =  this.element.nativeElement;
       this.addTimeTable();
     }, 1000);
+
+    setInterval(() => {
+      this.selector =  this.element.nativeElement;
+      this.loadTable()
+      this.addTimeTable();
+    }, 1000 * 60);
   }
 
-  addTimeTable() {
+  async addTimeTable() {
+    this.timetable = new Timetable();
+
     let serverDate = this.apiService.serverDate()
 
     let currentHour = Number(this.apiService.getTime())
-    this.timetable.setScope(currentHour, currentHour + 7);
+    this.timetable.setScope(currentHour, currentHour + 7 > 23 ? 23 : currentHour + 7);
 
     this.timetable.addLocations(this.aulas);
 
@@ -95,6 +98,7 @@ export class TimetableComponent implements OnInit {
     })
 
     this.renderer = new Renderer(this.timetable);
+    this.renderer.emptyNode(this.selector);
     this.renderer.draw(this.selector);
   }
 }
