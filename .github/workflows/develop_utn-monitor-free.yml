@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - utn-monitor
+name: Build and deploy Node.js app to Azure Web App - utn-monitor-free
 
 on:
   push:
@@ -18,18 +18,17 @@ jobs:
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '10.x'
 
     - name: npm install, build, and test
       run: |
         npm install
         npm run build --if-present
-        npm run test --if-present
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'utn-monitor'
+        app-name: 'utn-monitor-free'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_53405eda392543d085321a2cf636ca86 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ae854e57bd084ca7b5d8c247081c6c67 }}
         package: .
