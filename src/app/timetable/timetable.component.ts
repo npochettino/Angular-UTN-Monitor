@@ -85,7 +85,7 @@ export class TimetableComponent implements OnInit {
     let serverDate = this.apiService.serverDate()
 
     let currentHour = Number(this.apiService.getTime())
-    this.timetable.setScope(currentHour, currentHour + 7 > 23 ? 23 : currentHour + 7);
+    this.timetable.setScope(currentHour, currentHour + 7 > 23 ? 6 - (23 - currentHour) : currentHour + 7);
 
     this.timetable.addLocations(this.aulas);
 
