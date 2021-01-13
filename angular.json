@@ -23,13 +23,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/app/timetable/_scss/timetable.scss",
               "src/fonts.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/lib/INSPINIA/font-awesome/css/font-awesome.css",
               "src/lib/INSPINIA/css/animate.css",
               "src/lib/INSPINIA/css/style.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/app/timetable/_scss/timetable.scss"
             ],
             "scripts": [
               "node_modules/pace-js/pace.min.js",
