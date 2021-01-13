@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/Angular-UTN-Monitor",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "emulators": {
+    "hosting": {
+      "host": "localhost",
+      "port": "5001"
+    }
+  }
+}

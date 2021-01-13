@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "utn-monitor",
+    "default": "utn-monitor"
+  }
+}
