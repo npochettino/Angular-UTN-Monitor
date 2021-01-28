@@ -1,5 +1,9 @@
-import { ApiService } from '../api.service';
+import { Component, HostListener } from '@angular/core';
 import { Scope } from './_models/scope';
+
+@Component({
+  template: ''
+})
 
 export class Timetable {
 
@@ -9,15 +13,32 @@ export class Timetable {
     newLocations = [];
     scopeDurationHours: number;
 
+    screenHeight: number;
+    screenWidth: number;
+
+    @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+          this.screenHeight = window.innerHeight;
+          this.screenWidth = window.innerWidth;
+    }
+
+
     constructor() {
-      let currentHour = Number(new Date().getHours().toString())
-        this.scope = {
-            hourStart: currentHour,
-            hourEnd: currentHour + 7 > 23 ? 6 - (23 - currentHour) : currentHour + 7
-          };
-        this.locations = [];
-        this.events = [];
-        this.scopeDurationHours = this.getDurationHours(this.scope.hourStart, this.scope.hourEnd);
+      this.getScreenSize();
+
+      let currentHour = Number(new Date().getHours().toString()) - 1
+      let end = currentHour + 7 > 23 ? 23 - currentHour : currentHour + 7
+      if(this.screenWidth > 1150)
+        end = currentHour + 10 > 23 ? 23 - currentHour : currentHour + 10
+
+      this.scope = {
+        hourStart: currentHour,
+        hourEnd: end
+      };
+
+      this.locations = [];
+      this.events = [];
+      this.scopeDurationHours = this.getDurationHours(this.scope.hourStart, this.scope.hourEnd);
     }
 
     setScope(start, end) {

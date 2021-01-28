@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Horario } from '../horario';
 import { Renderer } from './renderer';
 import { Timetable } from './timetable';
 import { Scope } from './_models/scope';
 import * as XLSX from 'xlsx';
+import { Utils } from '../utils';
 
 @Component({
   selector: 'app-timetable',
@@ -14,6 +15,10 @@ import * as XLSX from 'xlsx';
 export class TimetableComponent implements OnInit {
   horarios: Horario[] = []
   serverDay: string
+  serverDate: Date
+
+  screenHeight: number;
+  screenWidth: number;
 
   @ViewChild('timetable') element: ElementRef;
   selector;
@@ -24,11 +29,20 @@ export class TimetableComponent implements OnInit {
   events = [];
   aulas = []
 
+  @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+        this.screenHeight = window.innerHeight;
+        this.screenWidth = window.innerWidth;
+    }
+
   constructor(
-    private apiService: ApiService) {}
+    private apiService: ApiService) {
+      this.getScreenSize();
+    }
 
   async ngOnInit() {
     this.serverDay = this.apiService.getDay()
+    this.serverDate = this.apiService.serverDate()
     await this.loadTable()
   }
 
@@ -47,20 +61,27 @@ export class TimetableComponent implements OnInit {
       var worksheet = workbook.Sheets[first_sheet_name];
       var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});
       if(arraylist){
-        //Object.assign(this.horarios, arraylist)
         this.horarios = Object.assign([], arraylist);
         this.horarios.forEach(h => {
           h.HoraDesde = Number(h.Desde.split(':')[0])
           h.MinutoDesde = Number(h.Desde.split(':')[1])
           h.HoraHasta = Number(h.Hasta.split(':')[0])
           h.MinutoHasta = Number(h.Hasta.split(':')[1])
+          if(h.Fecha)
+            h.Fecha = this.excelDateToJSDate(h.Fecha);
+
           if(!this.aulas)
             this.aulas = []
 
-          this.aulas.push(h.Carrera + " - " + h.Aula)
+          if(h.Dia == this.serverDay || h.Fecha == Utils.normalizeDate(this.serverDate))
+            this.aulas.push(h.Carrera + " - " + h.Aula)
         })
       }
-      this.horarios = this.horarios.filter(h => h.Dia == this.serverDay)
+
+      console.log(Utils.normalizeDate(this.serverDate))
+      console.log(this.horarios.filter(h => h.Fecha == Utils.normalizeDate(this.serverDate)))
+
+      this.horarios = this.horarios.filter(h => h.Dia == this.serverDay || h.Fecha == Utils.normalizeDate(this.serverDate))
       this.aulas = this.aulas.map(item => item).filter((value, index, self) => self.indexOf(value) === index).sort()
     };
     req.send();
@@ -82,18 +103,21 @@ export class TimetableComponent implements OnInit {
   async addTimeTable() {
     this.timetable = new Timetable();
 
-    let serverDate = this.apiService.serverDate()
+    let currentHour = Number(this.apiService.getTime()) - 1
 
-    let currentHour = Number(this.apiService.getTime())
-    this.timetable.setScope(currentHour, currentHour + 7 > 23 ? 6 - (23 - currentHour) : currentHour + 7);
+    let end = currentHour + 7 > 23 ? 23 - currentHour : currentHour + 7
+    if(this.screenWidth > 1150)
+      end = currentHour + 10 > 23 ? 23 - currentHour : currentHour + 10
+
+    this.timetable.setScope(currentHour, end);
 
     this.timetable.addLocations(this.aulas);
 
     this.horarios.forEach(h => {
       this.timetable.addEvent(`${h.Materia} - ${h.Profesor}`,
       h.Carrera + " - " + h.Aula,
-        new Date(serverDate.getFullYear(), serverDate.getMonth(), serverDate.getDate(), h.HoraDesde, h.MinutoDesde),
-        new Date(serverDate.getFullYear(), serverDate.getMonth(), serverDate.getDate(), h.HoraHasta, h.MinutoHasta),
+        new Date(this.serverDate.getFullYear(), this.serverDate.getMonth(), this.serverDate.getDate(), h.HoraDesde, h.MinutoDesde),
+        new Date(this.serverDate.getFullYear(), this.serverDate.getMonth(), this.serverDate.getDate(), h.HoraHasta, h.MinutoHasta),
         { url: '#' });
     })
 
@@ -101,4 +125,9 @@ export class TimetableComponent implements OnInit {
     this.renderer.emptyNode(this.selector);
     this.renderer.draw(this.selector);
   }
+
+  excelDateToJSDate(serial) {
+    // https://stackoverflow.com/questions/16229494/converting-excel-date-serial-number-to-date-using-javascript
+    return Utils.normalizeDate(new Date(Date.UTC(0, 0, serial, -4)));
+ }
 }
