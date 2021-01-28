@@ -105,9 +105,9 @@ export class TimetableComponent implements OnInit {
 
     let currentHour = Number(this.apiService.getTime()) - 1
 
-    let end = currentHour + 7 > 23 ? 23 - currentHour : currentHour + 7
+    let end = currentHour + 7 > 23 ? currentHour + 7 - 23 : currentHour + 7
     if(this.screenWidth > 1150)
-      end = currentHour + 10 > 23 ? 23 - currentHour : currentHour + 10
+      end = currentHour + 8 > 23 ? currentHour + 8 - 23 : currentHour + 8
 
     this.timetable.setScope(currentHour, end);
 
